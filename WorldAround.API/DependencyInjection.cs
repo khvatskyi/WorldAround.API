@@ -22,10 +22,10 @@ public static class DependencyInjection
             c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
                 Name = "Authorization",
-                Type = SecuritySchemeType.ApiKey,
-                Scheme = "Bearer",
-                BearerFormat = "JWT",
+                Type = SecuritySchemeType.Http,
+                Scheme = JwtBearerDefaults.AuthenticationScheme,
                 In = ParameterLocation.Header,
+                BearerFormat = "JWT",
                 Description = "JWT Authorization header using the bearer scheme"
             });
 
@@ -36,11 +36,11 @@ public static class DependencyInjection
                     {
                         Reference = new OpenApiReference
                         {
-                            Id = "Bearer",
+                            Id = JwtBearerDefaults.AuthenticationScheme,
                             Type = ReferenceType.SecurityScheme
                         }
                     },
-                    new List<string>()
+                    new string[] { "Bearer" }
                 }
             });
 
@@ -50,7 +50,6 @@ public static class DependencyInjection
         services
             .AddAuthentication(o =>
             {
-                o.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
                 o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
