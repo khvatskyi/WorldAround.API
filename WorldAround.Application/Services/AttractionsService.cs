@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.ObjectModel;
 using WorldAround.Application.Interfaces.Application;
 using WorldAround.Application.Interfaces.Infrastructure;
 using WorldAround.Domain.Entities;
@@ -70,6 +71,8 @@ public class AttractionsService : IAttractionsService
                 .ToArray(),
             Length = attractionsQuery.Count()
         }).FirstOrDefaultAsync(cancellationToken);
+
+        result ??= new GetAttractionsModel { Data = new List<AttractionModel>(), Length = 0 };
 
         return result;
     }
